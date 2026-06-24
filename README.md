@@ -16,4 +16,3 @@ Welcome to my learning repository for the [LLM Zoomcamp](https://courses.datatal
 | [Capstone Project](Capstone%20Project/) | Not Started | [Link](Capstone%20Project/) |
 
 ---
-*Created by [Junie](https://jetbrains.com/junie)*
