@@ -1,5 +1,78 @@
+# =========================
+# User Specific & Custom
+# =========================
 .junie/
-.idea/
-.DS_Store
-.venv
+faq.db
+faq.db-shm
+faq.db-wal
+*.db
+
+# =========================
+# Environments & Secrets
+# =========================
 .env
+.venv/
+venv/
+env/
+# Anaconda environments
+*.conda/
+
+# =========================
+# OS & IDE Settings
+# =========================
+.DS_Store
+.idea/
+.vscode/
+
+# =========================
+# Python Caches & Build
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# =========================
+# Jupyter / Notebooks
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# RAG: Data, Models & Vector DBs
+# =========================
+# Ignore downloaded LLM weights or embeddings
+*.bin
+*.gguf
+*.pt
+*.safetensors
+
+# Ignore local vector database storage directories (e.g., Qdrant, Chroma)
+qdrant_data/
+chroma_db/
+vector_store/
+qdrant_storage/
+
+# Ignore raw documents or chunked datasets (optional, comment out if you want to commit data)
+# data/
+# *.csv
+# *.pdf
+# *.json
+
+# =========================
+# Logs & Testing
+# =========================
+*.log
+logs/
+.pytest_cache/
+htmlcov/
+.coverage
+.tox/
