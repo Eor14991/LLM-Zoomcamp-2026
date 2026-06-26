@@ -1,9 +1,11 @@
-class RagBase:
+class RAGBase:
     def __init__(self,
                  index,
                  llm_client,
+                 instructions:str,
                  course="llm-zoomcamp",
                  model="llama-3.3-70b-versatile"):
+        self.instructions = instructions
         self.index = index
         self.llm_client = llm_client
         self.course = course
@@ -44,10 +46,7 @@ class RagBase:
 
     def system_message(self, context):
         # Cleaned up the formatting for a cleaner system prompt
-        return "".join(["Instructions: You are an AI assistant.",
-        "Your task is to help and answer the user's questions only using the following context:",
-        "{context}",
-        "Give the direct answer."])
+        return self.instructions+f"{context}"
 
     def build_context(self, search_result):
         lines = []
