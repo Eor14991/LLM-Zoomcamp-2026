@@ -5,7 +5,7 @@
 faq.db
 faq.db-shm
 faq.db-wal
-*.db
+*.db*
 
 # =========================
 # Environments & Secrets
