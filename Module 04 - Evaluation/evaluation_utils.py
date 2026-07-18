@@ -1,7 +1,7 @@
 import time
 
 from tqdm.auto import tqdm
-
+import openai
 from Module01_AgenticRAG.rag_helper import RAGBase
 
 
@@ -79,9 +79,11 @@ class RAGWithUsage(RAGBase):
         self.usages = []
         self.last_usage = None
 
-    def search(self, query, num_results=5):
+    def search(self, query, course=None, num_results=5):
+        target_course = course if course else self.course
+
         boost_dict = {"question": 1.0, "answer": 2.0, "section": 0.1}
-        filter_dict = {"course": self.course}
+        filter_dict = {"course": target_course}
 
         return self.index.search(
             query,
@@ -91,18 +93,32 @@ class RAGWithUsage(RAGBase):
         )
 
     def llm(self, prompt):
-        input_messages = [
-            {"role": "developer", "content": self.instructions},
-            {"role": "user", "content": prompt}
-        ]
+        max_retries = 5
+        backoff_factor = 2  # Double the sleep time on each failure
+        sleep_time = 4      # Start with a 4-second sleep
 
-        response = self.llm_client.responses.create(
-            model=self.model,
-            input=input_messages
-        )
+        for attempt in range(max_retries):
+            try:
+                response = self.llm_client.responses.create(
+                    model=self.model,
+                    input=prompt,
+                    instructions=self.instructions,
+                )
 
-        self.last_usage = response.usage
-        self.usages.append(response.usage)
+                self.last_usage = response.usage
+                self.usages.append(response.usage)
+                return response.output_text
+
+            except openai.RateLimitError as e:
+                if attempt == max_retries - 1:
+                    print("Max retries reached. Failing.")
+                    raise e
+
+                print(f"Rate limit hit. Sleeping for {sleep_time}s before retry (Attempt {attempt + 1}/{max_retries})...")
+                time.sleep(sleep_time)
+                sleep_time *= backoff_factor  # Exponential backoff (4s -> 8s -> 16s...)
+
+
 
         return response.output_text
 
