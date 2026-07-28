@@ -36,13 +36,3 @@ def create_assistant():
                    instructions=INSTRUCTIONS,
                    index=index)
 
-
-if __name__ == "__main__":
-    assistant = create_assistant()
-
-    query = "How do I join the course?"
-    if len(sys.argv) > 1:
-        query = sys.argv[1]
-
-    answer = assistant.rag_pipeline(query)
-    print(answer)
