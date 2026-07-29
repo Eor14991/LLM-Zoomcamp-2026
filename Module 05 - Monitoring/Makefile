@@ -20,3 +20,7 @@ postgres: network
 
 db:
 	uv run python db_init.py
+
+
+dashboard:
+	PYTHONPATH=".." uv run streamlit run dashboard.py --server.port 8502
