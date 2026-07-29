@@ -1,6 +1,6 @@
 import streamlit as st
 from assistant import create_assistant
-
+from db_save import save_conversation
 st.title("Course Assistant")
 
 @st.cache_resource
@@ -21,8 +21,12 @@ if st.button("Ask"):
 
             record = assistant.last_call
             st.write(f"Response time: {record.response_time:.2f}s")
-            st.write(f"Prompt tokens: {record.prompt_tokens}")
-            st.write(f"Completion tokens: {record.completion_tokens}")
+            st.write(f"Prompt tokens: {record.input_tokens}")
+            st.write(f"Completion tokens: {record.output_tokens}")
             st.write(f"Cost: ${record.cost:.4f}")
+
+
+            save_conversation(assistant.last_call, user_input, "llm-zoomcamp")
     else:
         st.warning("Please enter a question first.")
+

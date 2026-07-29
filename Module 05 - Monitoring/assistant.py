@@ -1,5 +1,5 @@
 import sys
-
+from db_save import save_conversation
 from metrics import RAGMetrics
 from Module01_AgenticRAG.ingest import load_faq_data, built_index
 from openai import OpenAI
@@ -35,4 +35,17 @@ def create_assistant():
     return RAGMetrics(llm_client=openai_client,
                    instructions=INSTRUCTIONS,
                    index=index)
+
+
+if __name__ == "__main__":
+    assistant = create_assistant()
+
+    query = "How do I join the course?"
+    if len(sys.argv) > 1:
+        query = sys.argv[1]
+
+    answer = assistant.rag_pipeline(query)
+    print(answer)
+
+    save_conversation(assistant.last_call, query, "llm-zoomcamp")
 
