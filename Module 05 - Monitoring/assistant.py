@@ -1,6 +1,6 @@
 import sys
 
-from Module01_AgenticRAG.rag_helper import RAGBase
+from metrics import RAGMetrics
 from Module01_AgenticRAG.ingest import load_faq_data, built_index
 from openai import OpenAI
 import os
@@ -32,7 +32,7 @@ def create_assistant():
     documents = load_faq_data()
     index = built_index(documents)
 
-    return RAGBase(llm_client=openai_client,
+    return RAGMetrics(llm_client=openai_client,
                    instructions=INSTRUCTIONS,
                    index=index)
 
