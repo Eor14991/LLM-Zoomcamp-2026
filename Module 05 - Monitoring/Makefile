@@ -7,8 +7,8 @@ chat:
 network:
 	docker network create monitoring
 
-postgres: network
-	docker run -d \
+postgres:
+	docker start course-assistant-pg || docker run -d \
 		--name course-assistant-pg \
 		--network monitoring \
 		-e POSTGRES_USER=user \
